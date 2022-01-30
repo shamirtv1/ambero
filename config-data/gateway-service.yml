@@ -29,3 +29,7 @@ spring:
           uri: lb://location-service
           predicates:
             - Path=/department/**
+
+logging:
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} ${LOG_LEVEL_PATTERN:-%5p} %m%n"

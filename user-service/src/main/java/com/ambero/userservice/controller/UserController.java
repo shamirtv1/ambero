@@ -4,6 +4,7 @@ import com.ambero.userservice.entity.User;
 import com.ambero.userservice.exception.RequestException;
 import com.ambero.userservice.model.Sector;
 import com.ambero.userservice.service.UserService;
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -48,12 +49,17 @@ public class UserController {
         return ResponseEntity.ok(oUsuario);
     }
 
+    @CircuitBreaker(name = "sectorCB", fallbackMethod = "fallbackGetSector")
     @GetMapping("/sector")
     public ResponseEntity<?> getSector() {
         List<Sector> sectores = (List<Sector>) userService.getAllSector();
         if(sectores.isEmpty())
             throw new RequestException(HttpStatus.NOT_FOUND, "Sectores no registrados");
         return ResponseEntity.ok(sectores);
+    }
+
+    private ResponseEntity<?> fallbackGetSector(RuntimeException e) {
+        return new ResponseEntity("El usurio no tiene sectores asociados", HttpStatus.OK);
     }
 
 }
