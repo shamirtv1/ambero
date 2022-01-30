@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.util.List;
 
-@FeignClient(name = "sector-service", url = "http://sector-service")
+@FeignClient(name = "sector-service")
 public interface SectorFeignClient {
 
     @RequestMapping(method = RequestMethod.GET, value ="/sector")

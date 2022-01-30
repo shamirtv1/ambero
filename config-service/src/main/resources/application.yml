@@ -10,7 +10,7 @@ spring:
         git:
           uri: https://github.com/shamirtv1/ambero
           search-paths: config-data
-          default-label: eureka
+          default-label: master
   security:
     user:
       name: root
