@@ -5,19 +5,3 @@ spring:
     config:
       enabled: true
       uri: http://localhost:8085
-
-  datasource:
-    driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://${AMBERO_SSAC_BD_HOST}:${AMBERO_SSAC_BD_PORT}/${AMBERO_SSAC_BD_NAME}
-    platform: postgres
-    username: ${AMBERO_SSAC_BD_USERNAME}
-    password: ${AMBERO_SSAC_BD_PASSWORD}
-    continue-on-error: true
-
-  jpa:
-    show-sql: true
-    generate-ddl: true
-    hibernate:
-      ddl-auto: none
-      SQL: debug
-    database: postgresql
