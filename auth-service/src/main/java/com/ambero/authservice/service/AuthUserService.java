@@ -31,8 +31,7 @@ public class AuthUserService {
             return null;
         String password = passwordEncoder.encode(dto.getPassword());
         User usuario = User.builder()
-                .familyName(dto.getFamilyName())
-                .givenName(dto.getGivenName())
+                .fullName(dto.getFullName())
                 .email(dto.getEmail())
                 .password(password)
                 .build();

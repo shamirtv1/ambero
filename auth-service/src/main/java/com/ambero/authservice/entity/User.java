@@ -2,6 +2,9 @@ package com.ambero.authservice.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang.StringUtils;
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
 
@@ -9,6 +12,7 @@ import javax.persistence.*;
 import java.util.Date;
 import java.util.UUID;
 
+@Slf4j
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
@@ -23,11 +27,8 @@ public class User {
     @Column(name = "user_id", updatable = false, nullable = false)
     private UUID id;
 
-    @Column(name = "user_given_name", nullable = false, length = 255, unique = true)
-    private String givenName;
-
-    @Column(name = "user_family_name", nullable = false, length = 255)
-    private String familyName;
+    @Column(name = "user_full_name", nullable = false, length = 255, unique = true)
+    private String fullName;
 
     @Column(name = "user_nickname", length = 255)
     private String nickname;
@@ -42,6 +43,18 @@ public class User {
     @Column(name = "user_picture", length = 255)
     private String picture;
 
+    @ColumnDefault("true")
+    @Column(name = "user_enabled")
+    private boolean enabled;
+
+    @ColumnDefault("'CONFIRMED'")
+    @Column(name = "user_status", length = 255)
+    private String status;
+
+    @ColumnDefault("false")
+    @Column(name = "user_email_verified")
+    private boolean emailVerified;
+
     @Column(name = "user_created")
     @Temporal(TemporalType.TIMESTAMP)
     @CreationTimestamp
@@ -51,4 +64,18 @@ public class User {
     @Temporal(TemporalType.TIMESTAMP)
     @CreationTimestamp
     private Date updated;
+
+    @PrePersist
+    private void prePersistFunction() {
+
+        if(StringUtils.isBlank(nickname)){
+            String [] chunks = fullName.split(" ");
+            nickname = chunks[0];
+        }
+
+        if(StringUtils.isBlank(status)){
+            status = "CONFIRMED";
+        }
+
+    }
 }
