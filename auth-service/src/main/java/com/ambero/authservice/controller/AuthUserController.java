@@ -28,13 +28,12 @@ public class AuthUserController {
     @PostMapping("/validate")
     public ResponseEntity<TokenDto> validate(@RequestParam String token){
         TokenDto tokenDto = authUserService.validate(token);
-        log.info("AQUII>>>>" + tokenDto);
         if(tokenDto == null)
             return ResponseEntity.badRequest().build();
         return ResponseEntity.ok(tokenDto);
     }
 
-    @PostMapping("/create")
+    @PostMapping("/signup")
     public ResponseEntity<User> create(@RequestBody AuthUserDto dto){
         User authUser = authUserService.save(dto);
         if(authUser == null)

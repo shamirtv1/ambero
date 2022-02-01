@@ -42,7 +42,6 @@ public class AuthUserService {
 
     public TokenDto login(AuthUserDto dto) {
         Optional<User> user = userRepository.findByEmail(dto.getEmail());
-        log.info("AQUII USUARIO >>>>" + user.get());
         if(!user.isPresent())
             return null;
         if(passwordEncoder.matches(dto.getPassword(), user.get().getPassword()))
@@ -51,11 +50,9 @@ public class AuthUserService {
     }
 
     public TokenDto validate(String token) {
-        log.info("TOKEN VALIDACION >>>>" + jwtProvider.validate(token));
         if (!jwtProvider.validate(token))
             return null;
         String email = jwtProvider.getUserEmailFromToken(token);
-        log.info("AQUII EMAIL >>>>" + email);
         if(!userRepository.findByEmail(email).isPresent())
             return null;
         return new TokenDto(token);

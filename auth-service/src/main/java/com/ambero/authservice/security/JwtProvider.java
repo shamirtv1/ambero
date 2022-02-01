@@ -3,6 +3,7 @@ package com.ambero.authservice.security;
 import com.ambero.authservice.entity.User;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -12,6 +13,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+@Slf4j
 @Component
 public class JwtProvider {
 
@@ -38,19 +40,19 @@ public class JwtProvider {
                 .compact();
     }
 
-    public boolean validate(String token){
-        try{
-            Jwts.parser().setSigningKey(secret).parseClaimsJwt(token);
+    public boolean validate(String token) {
+        try {
+            Jwts.parser().setSigningKey(secret).parseClaimsJws(token);
             return true;
         }catch (Exception e){
             return false;
         }
     }
 
-    public String getUserEmailFromToken(String token) {
+    public String getUserEmailFromToken(String token){
         try {
-            return Jwts.parser().setSigningKey(secret).parseClaimsJwt(token).getBody().getSubject();
-        }catch (Exception e){
+            return Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody().getSubject();
+        }catch (Exception e) {
             return "bad token";
         }
     }
