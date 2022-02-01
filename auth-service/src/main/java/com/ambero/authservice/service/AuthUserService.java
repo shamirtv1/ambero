@@ -7,9 +7,11 @@ import com.ambero.authservice.repository.UserRepository;
 import com.ambero.authservice.security.JwtProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
+@Service
 public class AuthUserService {
 
     @Autowired
@@ -27,6 +29,8 @@ public class AuthUserService {
             return null;
         String password = passwordEncoder.encode(dto.getPassword());
         User usuario = User.builder()
+                .familyName(dto.getFamilyName())
+                .givenName(dto.getGivenName())
                 .email(dto.getEmail())
                 .password(password)
                 .build();

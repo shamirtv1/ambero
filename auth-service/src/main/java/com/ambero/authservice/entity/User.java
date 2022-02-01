@@ -1,5 +1,6 @@
 package com.ambero.authservice.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
@@ -34,6 +35,7 @@ public class User {
     @Column(name = "user_email", nullable = false, length = 100, unique = true)
     private String email;
 
+    @JsonIgnore
     @Column(name = "user_password", nullable = false, length = 255)
     private String password;
 
