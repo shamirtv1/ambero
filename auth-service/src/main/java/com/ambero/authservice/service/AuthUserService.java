@@ -5,12 +5,14 @@ import com.ambero.authservice.dto.TokenDto;
 import com.ambero.authservice.entity.User;
 import com.ambero.authservice.repository.UserRepository;
 import com.ambero.authservice.security.JwtProvider;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
+@Slf4j
 @Service
 public class AuthUserService {
 
@@ -40,6 +42,7 @@ public class AuthUserService {
 
     public TokenDto login(AuthUserDto dto) {
         Optional<User> user = userRepository.findByEmail(dto.getEmail());
+        log.info("AQUII USUARIO >>>>" + user.get());
         if(!user.isPresent())
             return null;
         if(passwordEncoder.matches(dto.getPassword(), user.get().getPassword()))
@@ -48,9 +51,11 @@ public class AuthUserService {
     }
 
     public TokenDto validate(String token) {
-        if (jwtProvider.validate(token))
+        log.info("TOKEN VALIDACION >>>>" + jwtProvider.validate(token));
+        if (!jwtProvider.validate(token))
             return null;
         String email = jwtProvider.getUserEmailFromToken(token);
+        log.info("AQUII EMAIL >>>>" + email);
         if(!userRepository.findByEmail(email).isPresent())
             return null;
         return new TokenDto(token);

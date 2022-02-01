@@ -4,10 +4,12 @@ import com.ambero.authservice.dto.AuthUserDto;
 import com.ambero.authservice.dto.TokenDto;
 import com.ambero.authservice.entity.User;
 import com.ambero.authservice.service.AuthUserService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+@Slf4j
 @RestController
 @RequestMapping("/auth")
 public class AuthUserController {
@@ -26,6 +28,7 @@ public class AuthUserController {
     @PostMapping("/validate")
     public ResponseEntity<TokenDto> validate(@RequestParam String token){
         TokenDto tokenDto = authUserService.validate(token);
+        log.info("AQUII>>>>" + tokenDto);
         if(tokenDto == null)
             return ResponseEntity.badRequest().build();
         return ResponseEntity.ok(tokenDto);

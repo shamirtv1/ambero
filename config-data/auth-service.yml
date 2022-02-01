@@ -21,6 +21,9 @@ spring:
       SQL: debug
     database: postgresql
 
+jwt:
+  secret: TSABRWZQKMTVDBFBFVQUYQLEOBEONIPLCEVRZEPUWR9HVZYTEZBPLEBFZFVILCYVNWZCPLFBEDGEMEYVBDOQWAINYW
+
 eureka:
   client:
     fetch-registry: true
